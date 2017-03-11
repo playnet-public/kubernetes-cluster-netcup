@@ -9,11 +9,11 @@ coreos:
     reboot-strategy: reboot
   etcd2:
     name: "kubernetes"
-    initial-cluster: "kubernetes=http://185.170.112.48:2380"
+    initial-cluster: "kubernetes=http://185.162.248.45:2380"
     initial-cluster-token: "cluster-netcup"
     initial-cluster-state: "new"
-    initial-advertise-peer-urls: "http://185.170.112.48:2380"
-    advertise-client-urls: "http://185.170.112.48:2379"
+    initial-advertise-peer-urls: "http://185.162.248.45:2380"
+    advertise-client-urls: "http://185.162.248.45:2379"
     listen-client-urls: "http://0.0.0.0:2379,http://0.0.0.0:4001"
     listen-peer-urls: "http://0.0.0.0:2380"
   units:
@@ -24,10 +24,10 @@ coreos:
     - name: 10-ens3.network
       content: |
         [Match]
-        MACAddress=ea:96:69:06:f5:7d
+        MACAddress=b6:b6:6c:28:81:3c
         [Network]
-        Address=185.170.112.48/22
-        Gateway=185.170.112.1
+        Address=185.162.248.45/22
+        Gateway=185.162.248.1
         DNS=8.8.8.8
     - name: rpc-statd.service
       command: start
@@ -115,7 +115,7 @@ coreos:
             --register-node=true \
             --allow-privileged=true \
             --config=/etc/kubernetes/manifests \
-            --hostname-override=185.170.112.48 \
+            --hostname-override=185.162.248.45 \
             --cluster-dns=10.103.0.10 \
             --cluster-domain=cluster.local \
             --node-labels=etcd=true,nfsd=true,worker=true,master=true \
@@ -198,13 +198,13 @@ write_files:
   - path: /etc/environment
     permissions: 0644
     content: |
-      COREOS_PUBLIC_IPV4=185.170.112.48
-      COREOS_PRIVATE_IPV4=185.170.112.48
+      COREOS_PUBLIC_IPV4=185.162.248.45
+      COREOS_PRIVATE_IPV4=185.162.248.45
   - path: /run/flannel/options.env
     permissions: 0644
     content: |
-      FLANNELD_IFACE=185.170.112.48
-      FLANNELD_ETCD_ENDPOINTS=http://185.170.112.48:2379
+      FLANNELD_IFACE=185.162.248.45
+      FLANNELD_ETCD_ENDPOINTS=http://185.162.248.45:2379
   - path: /root/.toolboxrc
     owner: core
     content: |
@@ -220,7 +220,7 @@ write_files:
   - path: /etc/exports
     permissions: 0644
     content: |
-      /data/ 185.170.112.0/22(rw,async,no_subtree_check,no_root_squash,fsid=0)
+      /data/ 185.162.248.0/22(rw,async,no_subtree_check,no_root_squash,fsid=0)
   - path: /etc/kubernetes/manifests/kube-apiserver.yaml
     permissions: 0644
     content: |
@@ -238,11 +238,11 @@ write_files:
           - /hyperkube
           - apiserver
           - --bind-address=0.0.0.0
-          - --etcd-servers=http://185.170.112.48:2379
+          - --etcd-servers=http://185.162.248.45:2379
           - --allow-privileged=true
           - --service-cluster-ip-range=10.103.0.0/16
           - --secure-port=6443
-          - --advertise-address=185.170.112.48
+          - --advertise-address=185.162.248.45
           - --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota
           - --tls-cert-file=/etc/kubernetes/ssl/node.pem
           - --tls-private-key-file=/etc/kubernetes/ssl/node-key.pem
@@ -293,9 +293,9 @@ write_files:
           image: gcr.io/google_containers/podmaster:1.1
           command:
           - /podmaster
-          - --etcd-servers=http://185.170.112.48:2379
+          - --etcd-servers=http://185.162.248.45:2379
           - --key=controller
-          - --whoami=185.170.112.48
+          - --whoami=185.162.248.45
           - --source-file=/src/manifests/kube-controller-manager.yaml
           - --dest-file=/dst/manifests/kube-controller-manager.yaml
           terminationMessagePath: /dev/termination-log
@@ -309,9 +309,9 @@ write_files:
           image: gcr.io/google_containers/podmaster:1.1
           command:
           - /podmaster
-          - --etcd-servers=http://185.170.112.48:2379
+          - --etcd-servers=http://185.162.248.45:2379
           - --key=scheduler
-          - --whoami=185.170.112.48
+          - --whoami=185.162.248.45
           - --source-file=/src/manifests/kube-scheduler.yaml
           - --dest-file=/dst/manifests/kube-scheduler.yaml
           volumeMounts:

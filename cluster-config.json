@@ -8,7 +8,7 @@
 	},
 	"hosts": [
 		{
-			"name": "v22016124049440903.goodsrv.de",
+			"name": "v22017034406446364.goodsrv.de",
 			"nodes": [
 				{
 					"name": "kubernetes",
@@ -16,9 +16,9 @@
 					"worker": true,
 					"master": true,
 					"nfsd": true,
-					"mac": "ea:96:69:06:f5:7d",
-					"address": "185.170.112.48/22",
-					"gateway": "185.170.112.1",
+					"mac": "b6:b6:6c:28:81:3c",
+					"address": "185.162.248.45/22",
+					"gateway": "185.162.248.1",
 					"dns": "8.8.8.8",
 					"apiserver-port": 6443,
 					"iptables-filter-rules": [

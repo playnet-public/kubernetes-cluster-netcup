@@ -1,6 +1,6 @@
 generate:
 	rm -rf scripts kubernetes
-	k8s_generate_configs \
+	k8s_cluster_generate_configs \
 	-logtostderr \
 	-v=2 \
 	-config cluster-config.json
